@@ -24,13 +24,12 @@ public class Dispatcher implements Callable<SamplePojo> {
     }
 
     @Override
-    public SamplePojo call() {
+    public SamplePojo call() throws InterruptedException {
         log.info("Start processing " + fileLocation + "...");
 
         int msgKey = 0;
             log.info("The current thread is "+Thread.currentThread().getName() +" And the value is "+fileLocation);
                 producer.send(new ProducerRecord<>(topicName, msgKey, fileLocation));
-                msgKey++;
             return fileLocation;
     }
 } 
