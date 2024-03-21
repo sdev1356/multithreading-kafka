@@ -1,11 +1,16 @@
 package com.example.demo.api;
 
 import com.example.demo.Dispatcher;
-import jakarta.annotation.PreDestroy;
+
+
+
+import com.google.gson.Gson;
+
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;
+
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.scheduling.annotation.EnableAsync;
@@ -27,7 +32,7 @@ public class controller {
         return "Index Controller Working";
     }
     @GetMapping("/s")
-    public List<SamplePojo> send() throws InterruptedException {
+    public String send() throws InterruptedException {
         List<SamplePojo>r=new ArrayList<>();
         String topicName = "demo_java";
 //        String[] eventFiles = {"1","2","3","4","5","6","7","8","9","10"};
@@ -40,10 +45,10 @@ public class controller {
         Properties properties = new Properties();
         properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,"localhost:9092");
         properties.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, IntegerSerializer.class.getName());
-        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class.getName());
+        properties.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
 
         log.trace("Starting dispatcher threads...");
-        KafkaProducer<Integer, SamplePojo> producer = new KafkaProducer<>(properties);
+        KafkaProducer<Integer, String> producer = new KafkaProducer<>(properties);
         List<Future<SamplePojo>> futures = new ArrayList<>();
 //        Thread[] dispatchers = new Thread[eventFiles.length];
         for (int i = 0; i < lsp.size(); i++) {
@@ -70,8 +75,9 @@ public class controller {
 
         }
 
-        return r;
+        return "r";
     }
+
 
 
 }

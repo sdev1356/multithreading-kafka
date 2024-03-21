@@ -1,19 +1,14 @@
-//package com.example.demo.api;
-//
-//import lombok.extern.slf4j.Slf4j;
-//import org.springframework.kafka.annotation.KafkaListener;
-//import org.springframework.messaging.handler.annotation.Payload;
-//import org.springframework.stereotype.Component;
-//import org.springframework.stereotype.Service;
-//
-//@Slf4j
-//@Service
-//@Component
-//public class Consumer {
-//
-//        @KafkaListener(topics = "demo_java")
-//    public void voidString(@Payload String k){
-//        log.info("The message Started consuming");
-//        log.info("Received value "+k);
+package com.example.demo.api;
+
+import org.springframework.kafka.annotation.KafkaListener;
+import org.springframework.stereotype.Component;
+
+@Component
+public class Consumer {
+
+//    @KafkaListener(topics = "demo_java", groupId = "my-group")
+//    public void listen(String message) {
+//        System.out.println("Received message: " + message);
+//        // Process the message as needed
 //    }
-//}
+}
