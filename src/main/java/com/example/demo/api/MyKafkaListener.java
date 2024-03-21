@@ -20,7 +20,7 @@ public class MyKafkaListener implements ConsumerSeekAware {
 
     private ConsumerSeekCallback seekCallback;
 
-    @KafkaListener(topics = "demo_java",groupId = "my-group")
+    @KafkaListener(id="myListener",topics = "demo_java",groupId = "my-group",autoStartup = "false")
     public void listen(ConsumerRecord<?, ?> record) {
         if(record.offset()==100)
         // Process the incoming message

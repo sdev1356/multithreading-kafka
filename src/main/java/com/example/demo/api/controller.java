@@ -12,6 +12,10 @@ import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.IntegerSerializer;
 
 import org.apache.kafka.common.serialization.StringSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.config.ConcurrentKafkaListenerContainerFactory;
+import org.springframework.kafka.config.KafkaListenerEndpointRegistry;
+import org.springframework.kafka.listener.MessageListenerContainer;
 import org.springframework.kafka.support.serializer.JsonSerializer;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,6 +31,9 @@ import java.util.concurrent.*;
 @EnableAsync
 public class controller {
     ExecutorService executor = Executors.newFixedThreadPool(5);
+    @Autowired
+    private KafkaListenerEndpointRegistry kafkaListenerEndpointRegistry;
+
     @GetMapping("/")
     public String index(){
         return "Index Controller Working";
@@ -77,7 +84,18 @@ public class controller {
 
         return "r";
     }
-
+@GetMapping("/seek")
+    public void seek(){
+        log.info("Entered");
+    MessageListenerContainer container = kafkaListenerEndpointRegistry.getListenerContainer("myListener");
+    if (container != null && !container.isRunning()) {
+        container.start();
+        log.info("Started");
+    }
+    else{
+        log.info("error");
+    }
+}
 
 
 }
